@@ -31,6 +31,7 @@ app.use("/cats", catRoutes);
 // parameters even though it may not be used, it will only be used if
 // you want to chain error handlers
 app.use((err, req, res, next) => {
+  console.error(err);
   res.status(err.status).send(err.message);
 });
 

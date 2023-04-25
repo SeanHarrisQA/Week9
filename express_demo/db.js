@@ -12,4 +12,14 @@ mongoose
     console.error(`Boooo`);
   });
 
-module.exports = mongoose;
+const catSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  hasWhiskers: Boolean,
+  evil: Boolean,
+  length: Number,
+});
+
+// This model is similar to a DAO
+const catModel = mongoose.model("cats", catSchema);
+
+module.exports = catModel;
