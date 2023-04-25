@@ -2,7 +2,6 @@ const router = require("express").Router();
 const cats = [];
 const catModel = require("../db");
 
-// app.get( url , callback using (req, res))
 router.get("/getAll", async (req, res, next) => {
   try {
     const cats = await catModel.find();
@@ -29,18 +28,16 @@ router.delete("/remove/:id", async (req, res, next) => {
   } catch {
     return next({ status: 404, message: "oops" });
   }
-  //   const { id } = req.params;
-  //   const removed = cats.splice(id, 1);
-  //   res.json(removed);
 });
 
 router.patch("/update/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const updated = await catModel.findByIdAndUpdate(id, req.query, {
+      // Mongo returns the object before it was update this makes it return
+      // the object after it is updated
       returnDocument: "after",
     });
-    // const catToUpdate = cats[id];
     res.json(updated);
   } catch {
     return next({ message: "No cat with that id", status: 404 });
@@ -48,6 +45,3 @@ router.patch("/update/:id", async (req, res, next) => {
 });
 
 module.exports = router;
-// module.exports = {
-//   router,
-// };
