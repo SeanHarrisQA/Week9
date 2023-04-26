@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const cats = [];
-const catModel = require("../db");
+const { catModel } = require("../models");
 
 router.get("/getAll", async (req, res, next) => {
   try {
@@ -16,7 +15,7 @@ router.post("/create", async ({ body }, res, next) => {
     const created = await catModel.create(body);
     res.status(201).json(created);
   } catch (err) {
-    return next({ status: 500, message: "oops" });
+    return next({ status: 500, message });
   }
 });
 
