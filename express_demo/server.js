@@ -1,5 +1,7 @@
-"use strict";
-const express = require("express");
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+const express = require('express');
+
 const app = express();
 // Order of links matters in express, everything written in express
 // needs to be between const app = express and app.lister(...)
@@ -8,19 +10,19 @@ const app = express();
 // something express developer would ususally write they would use a
 // boiler plate version
 const logger = (req, res, next) => {
-  console.log("Host:", req.host);
-  console.log("Method", req.method);
-  console.log("Path:", req.path);
+  console.log('Host:', req.host);
+  console.log('Method', req.method);
+  console.log('Path:', req.path);
   // has to call the next function otherwise the request won't finish
   return next();
 };
-// app.use(clearlogger);
+app.use(logger);
 app.use(express.json());
 
-const catRoutes = require("./routes/cats");
+const catRoutes = require('./routes/cats');
 // This uses the cat routes, and will append /cats in front of the requests
 // i.e /getAll /create etc.
-app.use("/cats", catRoutes);
+app.use('/cats', catRoutes);
 // Could add this like app.use("/cats", auth(), catRoutes) if we had an auth
 // method and then the authorisation would be applied to every request so we
 // didn't have to write code for auth in every method
@@ -35,8 +37,6 @@ app.use((err, req, res, next) => {
 });
 
 // End of express code
-const server = app.listen(4494, () =>
-  console.log("server started on " + server.address().port)
-);
+const server = app.listen(4494, () => console.log(`server started on ${server.address().port}`));
 
 module.exports = server;

@@ -1,13 +1,20 @@
-const chai = require("chai");
-const chaiHttp = require("chai-http");
+/* eslint-disable no-console */
+/* eslint-disable func-names */
+/* eslint-disable no-unused-expressions */
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const {
+  it, describe, before, after,
+} = require('mocha');
+
 chai.use(chaiHttp);
 // If there isn't a filepath on the require then it is a node module
-const { connectToDb, disconnect } = require("../db");
+const { connectToDb, disconnect } = require('../db');
 
-const server = require("../server");
-const { catModel } = require("../models");
+const server = require('../server');
+const { catModel } = require('../models');
 
-describe("API tests", function () {
+describe('API tests', function () {
   //   let server;
   this.timeout(30_000);
 
@@ -16,7 +23,7 @@ describe("API tests", function () {
   this.beforeEach(async () => {
     await catModel.deleteMany({});
     testCat = await catModel.create({
-      name: "Manny",
+      name: 'Manny',
       hasWhiskers: true,
       evil: true,
       length: 25,
@@ -33,12 +40,12 @@ describe("API tests", function () {
     }
   });
 
-  it("should create a cat", (done) => {
+  it('should create a cat', (done) => {
     chai
       .request(server)
-      .post("/cats/create")
+      .post('/cats/create')
       .send({
-        name: "Manny",
+        name: 'Manny',
         hasWhiskers: true,
         evil: true,
         length: 25,
@@ -46,7 +53,7 @@ describe("API tests", function () {
       .end((err, res) => {
         chai.expect(err).to.be.null;
         chai.expect(res.body).to.include({
-          name: "Manny",
+          name: 'Manny',
           hasWhiskers: true,
           evil: true,
           length: 25,
@@ -56,10 +63,10 @@ describe("API tests", function () {
       });
   });
 
-  it("should get all cats", (done) => {
+  it('should get all cats', (done) => {
     chai
       .request(server)
-      .get("/cats/getAll")
+      .get('/cats/getAll')
       .send()
       .end((err, res) => {
         chai.expect(err).to.be.null;
@@ -69,8 +76,8 @@ describe("API tests", function () {
       });
   });
 
-  it("should remove a cat", (done) => {
-    let { _id } = testCat;
+  it('should remove a cat', (done) => {
+    const { _id } = testCat;
     chai
       .request(server)
       .delete(`/cats/remove/${_id}`)
@@ -83,16 +90,16 @@ describe("API tests", function () {
       });
   });
 
-  it("should update a cat", (done) => {
-    let { _id } = testCat;
+  it('should update a cat', (done) => {
+    const { _id } = testCat;
     chai
       .request(server)
       .patch(`/cats/update/${_id}?name=barry`)
       .send()
       .end((err, res) => {
-        //chai.expect(err).to.be.null;
+        // chai.expect(err).to.be.null;
         chai.expect(res.body).to.deep.include({
-          name: "barry",
+          name: 'barry',
           hasWhiskers: true,
           evil: true,
           length: 25,

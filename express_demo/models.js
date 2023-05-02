@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
+
 const catSchema = new Schema({
   name: { type: String, required: true },
   hasWhiskers: Boolean,
@@ -7,7 +8,7 @@ const catSchema = new Schema({
 });
 
 // This model is similar to a DAO
-const catModel = model("cats", catSchema);
+const catModel = model('cats', catSchema);
 
 module.exports = {
   catModel,
